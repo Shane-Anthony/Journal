@@ -13,9 +13,24 @@ const SignupForm = () => {
 
     // Form validation
     if (!username || !email || !password) {
-        setError("Please fill in all the fields.");
-        return;
-      }
+      setError("Please fill in all the fields.");
+      return;
+    }
+    
+    // Validate email format using regular expression
+    const emailPattern = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+    if (!email.match(emailPattern)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    // Validate password strength
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!password.match(passwordPattern)) {
+      setError("Password must be at least 8 characters long, contain at least one letter and one number.");
+      return;
+    }
+
   
       // Perform sign-up logic here, e.g. send form data to backend API
       try {
@@ -80,7 +95,7 @@ const SignupForm = () => {
           Already have an account? <Link to="/login">Login</Link>
         </p>
       </form>
-      
+      {error && <p>{error}</p>}
     </div>
   );
 };
