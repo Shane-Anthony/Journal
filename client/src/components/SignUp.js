@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
+import axios from "axios";
 
 
 const SignupForm = () => {
@@ -7,6 +8,7 @@ const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const history = useNavigate();
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -16,7 +18,7 @@ const SignupForm = () => {
       setError("Please fill in all the fields.");
       return;
     }
-    
+
     // Validate email format using regular expression
     const emailPattern = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
     if (!email.match(emailPattern)) {
@@ -34,25 +36,29 @@ const SignupForm = () => {
   
       // Perform sign-up logic here, e.g. send form data to backend API
       try {
-        const response = await fetch("/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, email, password }),
-        });
+        await axios.post("http://localhost:8000/signup",{
+          email,password
+        })
+        .then(res=>{
+          if (res.data="exist"){
+            alert("User already exists")
+            
+            
+          }
+          else if(res.data="not exist"){
+            alert("User does not exist")
+            history("/home", {state:{id:username}})
+          }
+        })
+        .catch(e=>{
+          alert("wrong details")
+          console.log(e);
   
-        if (response.ok) {
-          // Handle successful sign-up
-          console.log("Sign up successful!");
-        } else {
-          // Handle sign-up error
-          const errorData = await response.json();
-          setError(errorData.message || "Failed to sign up. Please try again later.");
-        }
-      } catch (error) {
+        })
+        
+      } catch (e) {
         // Handle network error
-        setError("Failed to connect to server. Please try again later.");
+        console.log(e);
       }
     };
 
@@ -92,7 +98,7 @@ const SignupForm = () => {
         <br />
         <input type="submit" value="Sign Up" />
         <p>
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account? <Link to="/">Login</Link>
         </p>
       </form>
       {error && <p>{error}</p>}
