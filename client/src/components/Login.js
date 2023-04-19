@@ -1,80 +1,50 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
+const LoginForm =()=> {
 
-const LoginForm = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [email,setEmail]=useState('')
+  const [password,setPassword]=useState('')
 
-  const history = useNavigate();
+  const history=useNavigate();
 
-  const handleSubmit = async(e) => {
+  async function submit(e){
     e.preventDefault();
 
-    // Form validation
-    if (!username || !email || !password) {
-      setError("Please fill in all the fields.");
-      return;
-    }
+    try{
 
-    // Validate email format using regular expression
-    const emailPattern = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
-    if (!email.match(emailPattern)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    // Validate password strength
-    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!password.match(passwordPattern)) {
-      setError("Password must be at least 8 characters long, contain at least one letter and one number.");
-      return;
-    }
-
-  
-      // Perform sign-up logic here, e.g. send form data to backend API
-      try {
-        await axios.post("http://localhost:8000/",{
-          email,password
-        })
-        .then(res=>{
-          if (res.data="exist"){
-            history("/home", {state:{id:username}})
-            
-          }
-          else if(res.data="not exist"){
-            alert("User does not exist")
-            
-          }
-        })
-        .catch(e=>{
-          alert("wrong details")
-          console.log(e);
-  
-        })
-        
-      } catch (e) {
-        // Handle network error
+      await axios.post("http://localhost:8000/",{
+        email,password
+      })
+      .then(res=>{
+        if(res.data=="exist"){
+          history("/home",{state:{id:email}})
+        }
+        else if(res.data=="notexist"){
+          alert("User have not sign up")
+        }
+      })
+      .catch(e=>{
+        alert("wrong details")
         console.log(e);
-      }
-    };
+      })
+
+    }
+    catch(e){
+      console.log(e);
+
+    }
+
+  }
+
 
   return (
-    <div>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+    <div className="login">
+
+      <h1>Login</h1>
+
+      <form action="POST">
         <br />
         <label htmlFor="email">Email:</label>
         <input
@@ -96,14 +66,18 @@ const LoginForm = () => {
           required
         />
         <br />
-        <input type="submit" value="Log in" />
+        <input type="submit" onClick={submit} />
         <p>
           Don't have an account? <Link to="/SignUp">Sign Up</Link>
         </p>
       </form>
-      {error && <p>{error}</p>}
+
+            
+
+            
+
     </div>
-  );
-};
+  )
+}
 
 export default LoginForm;
