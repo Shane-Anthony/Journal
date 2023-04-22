@@ -7,11 +7,22 @@ const SignUpForm=() =>{
   
   const [username,setUsername]=useState('');
   const [password,setPassword]=useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   
   const history=useNavigate();
 
   async function submit(e){
     e.preventDefault();
+
+    // Check if password meets minimum requirements
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const specialRegex = /[\W_]/;
+
+    if (password.length < 8 || !uppercaseRegex.test(password) || !lowercaseRegex.test(password) || !specialRegex.test(password)) {
+      setErrorMessage("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one special character");
+      return;
+    }
 
     try{
 
@@ -44,6 +55,7 @@ const SignUpForm=() =>{
     <div className="Signup">
 
     <h1>Signup</h1>
+    {errorMessage && <div className="error">{errorMessage}</div>}
 
     <form action="POST">
       <label htmlFor="username">Username:</label>
