@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb+srv://User:Password@projectcluster.4jmjeu1.mongodb.net/?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://User:Password@projectcluster.rhnl8pu.mongodb.net/Journal")
 .then(()=>{
     console.log("MongoDB Connected");
 })
@@ -13,7 +13,7 @@ mongoose.connect("mongodb+srv://User:Password@projectcluster.4jmjeu1.mongodb.net
 
 
 const newSchema=new mongoose.Schema({
-    email:{
+    username:{
         type:String,
         required:true,
         unique:true

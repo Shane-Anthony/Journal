@@ -17,16 +17,16 @@ app.get("/",cors(),(req,res)=>{
 
 
 app.post("/",async(req,res)=>{
-    const{email,password}=req.body
+    const{username,password}=req.body
 
     try{
-        const check=await collection.findOne({email:email})
+        const check=await collection.findOne({username:username , password:password})
 
         if(check){
             res.json("exist")
         }
         else{
-            res.json("not exist")
+            res.json("does not exist")
         }
 
     }
@@ -39,21 +39,21 @@ app.post("/",async(req,res)=>{
 
 
 app.post("/signup",async(req,res)=>{
-    const{email,password}=req.body
+    const{username,password}=req.body
 
     const data={
-        email:email,
+        username:username,
         password:password
     }
 
     try{
-        const check=await collection.findOne({email:email})
+        const check=await collection.findOne({username:username})
 
         if(check){
             res.json("exist")
         }
         else{
-            res.json("not exist")
+            res.json("does not exist")
 
             await collection.insertMany([data])
         }

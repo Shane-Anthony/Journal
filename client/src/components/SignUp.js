@@ -5,7 +5,7 @@ import axios from "axios"
 const SignUpForm=() =>{
     
   
-  const [email,setEmail]=useState('');
+  const [username,setUsername]=useState('');
   const [password,setPassword]=useState('');
   
   const history=useNavigate();
@@ -16,14 +16,14 @@ const SignUpForm=() =>{
     try{
 
       await axios.post("http://localhost:8000/signup",{
-        email,password
+        username,password
       })
       .then(res=>{
         if(res.data=="exist"){
           alert("User already exists")
         }
-        else if(res.data=="notexist"){
-          history("/home",{state:{id:email}})
+        else if(res.data=="does not exist"){
+          history("/home",{state:{id:username}})
         }
       })
       .catch(e=>{
@@ -46,13 +46,13 @@ const SignUpForm=() =>{
     <h1>Signup</h1>
 
     <form action="POST">
-      <label htmlFor="email">Email:</label>
+      <label htmlFor="username">Username:</label>
         <input
-          type="email"
-          id="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="username"
+          id="username"
+          name="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <br />

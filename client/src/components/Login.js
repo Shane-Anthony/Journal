@@ -4,8 +4,8 @@ import axios from "axios";
 
 const LoginForm =()=> {
 
-  const [email,setEmail]=useState('')
-  const [password,setPassword]=useState('')
+  const [username,setUsername]=useState('');
+  const [password,setPassword]=useState('');
 
   const history=useNavigate();
 
@@ -15,18 +15,18 @@ const LoginForm =()=> {
     try{
 
       await axios.post("http://localhost:8000/",{
-        email,password
+        username,password
       })
       .then(res=>{
         if(res.data=="exist"){
-          history("/home",{state:{id:email}})
+          history("/home",{state:{id:username}})
         }
-        else if(res.data=="notexist"){
-          alert("User have not sign up")
+        else if(res.data=="does not exist"){
+          alert("Username or Password is incorrect")
         }
       })
       .catch(e=>{
-        alert("wrong details")
+        alert("Wrong Details")
         console.log(e);
       })
 
@@ -45,14 +45,13 @@ const LoginForm =()=> {
       <h1>Login</h1>
 
       <form action="POST">
-        <br />
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="username">Username:</label>
         <input
-          type="email"
-          id="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="username"
+          id="username"
+          name="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <br />
