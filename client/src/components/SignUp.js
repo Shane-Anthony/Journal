@@ -7,6 +7,7 @@ const SignUpForm=() =>{
   
   const [username,setUsername]=useState('');
   const [password,setPassword]=useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   
   const history=useNavigate();
@@ -21,6 +22,10 @@ const SignUpForm=() =>{
 
     if (password.length < 8 || !uppercaseRegex.test(password) || !lowercaseRegex.test(password) || !specialRegex.test(password)) {
       setErrorMessage("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one special character");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match");
       return;
     }
 
@@ -55,7 +60,7 @@ const SignUpForm=() =>{
     <div className="Signup">
 
     <h1>Signup</h1>
-    {errorMessage && <div className="error">{errorMessage}</div>}
+    
 
     <form action="POST">
       <label htmlFor="username">Username:</label>
@@ -78,6 +83,17 @@ const SignUpForm=() =>{
           required
         />
         <br />
+        <label htmlFor="confirmPassword">Confirm Password:</label>
+        <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        required
+        />
+        <br />
+        {errorMessage && <div className="error">{errorMessage}</div>}        
         <input type="submit" onClick={submit} />
         <p>
           Already have an account? <Link to="/">Log in</Link>
