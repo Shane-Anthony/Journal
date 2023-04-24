@@ -2,24 +2,27 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
-const LoginForm =()=> {
+const LoginForm =({loginUser})=> {
 
   const [username,setUsername]=useState('');
   const [password,setPassword]=useState('');
+  const [user, setUser] = useState(null); // Initialize user state to null
 
-  const history=useNavigate();
+  const navigate=useNavigate();
 
   async function submit(e){
     e.preventDefault();
 
     try{
 
-      await axios.post("http://localhost:8000/",{
+      const response = await axios.post("http://localhost:8000/",{
         username,password
       })
       .then(res=>{
         if(res.data=="exist"){
-          history("/home",{state:{id:username}})
+          loginUser(username);
+          setUser({ id: username }); // Set user state to the logged-in user
+          navigate("/home");
         }
         else if(res.data=="does not exist"){
           alert("Username or Password is incorrect")
@@ -70,10 +73,6 @@ const LoginForm =()=> {
           Don't have an account? <Link to="/SignUp">Sign Up</Link>
         </p>
       </form>
-
-            
-
-            
 
     </div>
   )

@@ -1,17 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import SignUp from './components/SignUp.js';
 import Login from './components/Login.js';
-import Page1 from './components/Page1.js';
+import Home from './components/Home.js';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const App = () => {
+  const [user, setUser] = useState(null);
+
+  const loginUser = (username) => {
+    setUser({ id: username });
+  };
+
+  const signupUser = (username) => {
+    setUser({ id: username });
+  };
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/home" element={<Page1 />} />
+        <Route path="/" element={<Login user={user} loginUser={loginUser} />} />
+        <Route path="/signup" element={<SignUp user={user} signupUser={signupUser}/>} />
+        <Route path="/home" element={<Home user={user} setUser={setUser} />} />
       </Routes>
     </Router>
   );

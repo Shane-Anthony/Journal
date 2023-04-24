@@ -2,13 +2,14 @@ import React, { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"
 
-const SignUpForm=() =>{
+const SignUpForm=({signupUser}) =>{
     
   
   const [username,setUsername]=useState('');
   const [password,setPassword]=useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [user, setUser] = useState(null);
   
   const history=useNavigate();
 
@@ -39,7 +40,9 @@ const SignUpForm=() =>{
           alert("User already exists")
         }
         else if(res.data=="does not exist"){
-          history("/home",{state:{id:username}})
+          signupUser(username)
+          setUser({id: username}); // set user state to the username
+          history("/home")
         }
       })
       .catch(e=>{
@@ -54,8 +57,6 @@ const SignUpForm=() =>{
     }
 
   }
-
-
   return (
     <div className="Signup">
 
