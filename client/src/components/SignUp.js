@@ -52,8 +52,8 @@ const SignUpForm=({signupUser}) =>{
 
     }
     catch(e){
-      console.log(e);
-
+      setErrorMessage('There was a problem signing up. Please try again later.');
+      console.error(e);
     }
 
   }

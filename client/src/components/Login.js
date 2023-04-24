@@ -6,6 +6,7 @@ const LoginForm =({loginUser})=> {
 
   const [username,setUsername]=useState('');
   const [password,setPassword]=useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [user, setUser] = useState(null); // Initialize user state to null
 
   const navigate=useNavigate();
@@ -29,8 +30,8 @@ const LoginForm =({loginUser})=> {
         }
       })
       .catch(e=>{
-        alert("Wrong Details")
-        console.log(e);
+        setErrorMessage('There was a problem logging in. Please try again later.');
+        console.error(e);
       })
 
     }

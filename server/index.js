@@ -31,7 +31,8 @@ app.post("/",async(req,res)=>{
 
     }
     catch(e){
-        res.json("fail")
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
 
 })
@@ -56,11 +57,13 @@ app.post("/signup",async(req,res)=>{
             res.json("does not exist")
 
             await collection.insertMany([data])
+            
         }
 
     }
     catch(e){
-        res.json("fail")
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
 
 })
