@@ -19,6 +19,7 @@ const LoginForm =({loginUser})=> {
       const response = await axios.post("http://localhost:8000/",{
         username,password
       })
+      
       .then(res=>{
         if(res.data=="exist"){
           loginUser(username);
@@ -33,7 +34,7 @@ const LoginForm =({loginUser})=> {
         setErrorMessage('There was a problem logging in. Please try again later.');
         console.error(e);
       })
-
+      console.log('Response:', response.data);
     }
     catch(e){
       console.log(e);

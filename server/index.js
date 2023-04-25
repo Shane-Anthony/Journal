@@ -2,6 +2,7 @@
 const express = require("express")
 const collection = require("./mongo")
 const cors = require("cors")
+const crypto = require("crypto");
 
 // Set up Express app
 const app = express()
@@ -20,7 +21,10 @@ app.post("/",async(req,res)=>{
     const{username,password}=req.body
 
     try{
-        const check=await collection.findOne({username:username , password:password})
+        const check=await collection.findOne({
+            username:username , 
+            password: crypto.createHash("sha256").update(password).digest("hex")
+        });
 
         if(check){
             res.json("exist")
@@ -44,8 +48,8 @@ app.post("/signup",async(req,res)=>{
 
     const data={
         username:username,
-        password:password
-    }
+        password: crypto.createHash("sha256").update(password).digest("hex")
+    };
 
     try{
         const check=await collection.findOne({username:username})
