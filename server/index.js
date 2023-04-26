@@ -13,7 +13,7 @@ app.use(cors())
 
 // Handle GET requests to root URL
 app.get("/",cors(),(req,res)=>{
-
+    res.status(200).json({ message: "OK" });
 })
 
 // Handle POST requests to root URL for authentication
@@ -27,7 +27,7 @@ app.post("/",async(req,res)=>{
         });
 
         if(check){
-            res.status(200).json("exist")
+            res.status(200).json("exist");
         }
         else{
             res.json("does not exist")
@@ -58,10 +58,9 @@ app.post("/signup",async(req,res)=>{
             res.json("exist")
         }
         else{
-            res.json("does not exist")
-
             await collection.insertMany([data])
-            res.status(201)
+            res.status(201).send("User created successfully");
+            
         }
 
     }
@@ -90,6 +89,6 @@ app.use(function(err, req, res, next) {
     res.status(500).json({ error: "Internal Server Error" });
 });
 
-app.listen(8000,()=>{
-    console.log("Port is running on 8000");
-})
+
+
+module.exports = app;

@@ -39,7 +39,7 @@ const SignUpForm=({signupUser}) =>{
         if(res.data=="exist"){
           setErrorMessage("User already exists")
         }
-        else if(res.data=="does not exist"){
+        else if(res.data.status==201){
           signupUser(username)
           setUser({id: username}); // set user state to the username
           history("/home")

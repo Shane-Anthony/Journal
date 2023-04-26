@@ -1,5 +1,22 @@
 {
+  "name": "jurnal",
+  "version": "1.0.0",
+  "description": "An Online Collaborative Journal.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3"
-  }
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
 }
