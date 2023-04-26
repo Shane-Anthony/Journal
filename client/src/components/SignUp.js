@@ -37,7 +37,7 @@ const SignUpForm=({signupUser}) =>{
       })
       .then(res=>{
         if(res.data=="exist"){
-          alert("User already exists")
+          setErrorMessage("User already exists")
         }
         else if(res.data=="does not exist"){
           signupUser(username)

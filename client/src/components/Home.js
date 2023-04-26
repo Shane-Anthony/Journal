@@ -16,7 +16,7 @@ const Home = ({user, setUser}) => {
  // render something else if user is not logged in
   return (
     <div>
-      <h1>You need to log in first</h1>
+      <h1>You need to <Link to="/">Log in</Link> first</h1> 
     </div>
   );
 };

@@ -27,7 +27,7 @@ const LoginForm =({loginUser})=> {
           navigate("/home");
         }
         else if(res.data=="does not exist"){
-          alert("Username or Password is incorrect")
+          setErrorMessage("Username or Password is incorrect")
         }
       })
       .catch(e=>{
@@ -70,6 +70,7 @@ const LoginForm =({loginUser})=> {
           required
         />
         <br />
+        {errorMessage && <div className="error">{errorMessage}</div>}
         <input type="submit" onClick={submit} />
         <p>
           Don't have an account? <Link to="/SignUp">Sign Up</Link>

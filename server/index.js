@@ -11,12 +11,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
 
-
+// Handle GET requests to root URL
 app.get("/",cors(),(req,res)=>{
 
 })
 
-
+// Handle POST requests to root URL for authentication
 app.post("/",async(req,res)=>{
     const{username,password}=req.body
 
@@ -27,7 +27,7 @@ app.post("/",async(req,res)=>{
         });
 
         if(check){
-            res.json("exist")
+            res.status(200).json("exist")
         }
         else{
             res.json("does not exist")
@@ -42,7 +42,7 @@ app.post("/",async(req,res)=>{
 })
 
 
-
+// Handle POST requests to "/signup" URL for creating new users
 app.post("/signup",async(req,res)=>{
     const{username,password}=req.body
 
@@ -61,7 +61,7 @@ app.post("/signup",async(req,res)=>{
             res.json("does not exist")
 
             await collection.insertMany([data])
-            
+            res.status(201)
         }
 
     }
@@ -71,6 +71,24 @@ app.post("/signup",async(req,res)=>{
     }
 
 })
+
+// Handle 404 errors
+app.use(function(req, res, next) {
+    res.status(404).json({ error: "Not found" });
+});
+
+// Handle authentication errors
+app.use(function(err, req, res, next) {
+    if (err.name === "UnauthorizedError") {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+});
+
+// Handle server errors
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).json({ error: "Internal Server Error" });
+});
 
 app.listen(8000,()=>{
     console.log("Port is running on 8000");
