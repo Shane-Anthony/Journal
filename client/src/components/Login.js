@@ -1,6 +1,11 @@
+import "./Styles.css";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+
+
 
 const LoginForm =({loginUser})=> {
 
@@ -47,35 +52,42 @@ const LoginForm =({loginUser})=> {
   return (
     <div className="login">
 
-      <h1>Login</h1>
-
-      <form action="POST">
-        <label htmlFor="username">Username:</label>
-        <input
-          type="username"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <br />
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <br />
-        {errorMessage && <div className="error">{errorMessage}</div>}
-        <input type="submit" onClick={submit} />
-        <p>
-          Don't have an account? <Link to="/SignUp">Sign Up</Link>
-        </p>
-      </form>
+      <h1>Jurnal</h1>
+      <div className="center-box">
+        <form action="POST">
+          <h2>Login</h2>
+          <label htmlFor="username"><FontAwesomeIcon icon={faUser} className="user-icon" /></label>
+          
+          <input
+            type="username"
+            id="username"
+            name="username"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <br />
+          <label htmlFor="password"></label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <br />
+          <br />
+          {errorMessage && <div className="error">{errorMessage}</div>}
+          <input type="submit" onClick={submit} />
+          <p>
+            Don't have an account? <Link to="/SignUp">Sign Up</Link>
+          </p>
+        </form>  
+      </div>
+      
 
     </div>
   )

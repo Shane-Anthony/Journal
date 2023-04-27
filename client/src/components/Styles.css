@@ -1,0 +1,26 @@
+body{
+    background: #D6E7EC;
+}
+.center-box {
+    background-color: #545A62;
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    border-radius: 53px;
+  }
+
+  .user-icon {
+    left: -10px;
+    position: relative;
+    color: #ccc;
+  }
+  
+  
+  

@@ -1,6 +1,10 @@
 import React, { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import axios from "axios";
+import "./Styles.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+
 
 const SignUpForm=({signupUser}) =>{
     
@@ -60,15 +64,16 @@ const SignUpForm=({signupUser}) =>{
   return (
     <div className="Signup">
 
-    <h1>Signup</h1>
     
-
+    <div>
+    <h1>Signup</h1>
     <form action="POST">
-      <label htmlFor="username">Username:</label>
+      <label htmlFor="username"><FontAwesomeIcon icon={faUser} className="user-icon" /></label>
         <input
           type="username"
           id="username"
           name="username"
+          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
@@ -100,10 +105,8 @@ const SignUpForm=({signupUser}) =>{
           Already have an account? <Link to="/">Log in</Link>
         </p>
       </form>
-
-          
-
-            
+  
+    </div>      
 
     </div>
   )
