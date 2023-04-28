@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -68,7 +69,7 @@ const LoginForm =({loginUser})=> {
             required
           />
           <br />
-          <label htmlFor="password"></label>
+          <label htmlFor="password"><FontAwesomeIcon icon={faLock} className="user-icon" /></label>
           <input
             type="password"
             id="password"

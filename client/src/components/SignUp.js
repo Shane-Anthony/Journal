@@ -4,6 +4,7 @@ import axios from "axios";
 import "./Styles.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 
 const SignUpForm=({signupUser}) =>{
@@ -64,10 +65,10 @@ const SignUpForm=({signupUser}) =>{
   return (
     <div className="Signup">
 
-    
-    <div>
-    <h1>Signup</h1>
+    <h1>Jurnal</h1>
+    <div className="center-box">
     <form action="POST">
+      <h2>Signup</h2>
       <label htmlFor="username"><FontAwesomeIcon icon={faUser} className="user-icon" /></label>
         <input
           type="username"
@@ -79,21 +80,23 @@ const SignUpForm=({signupUser}) =>{
           required
         />
         <br />
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password"><FontAwesomeIcon icon={faLock} className="user-icon" /></label>
         <input
           type="password"
           id="password"
           name="password"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
         <br />
-        <label htmlFor="confirmPassword">Confirm Password:</label>
+        <label htmlFor="confirmPassword"><FontAwesomeIcon icon={faLock} className="user-icon" /></label>
         <input
         type="password"
         id="confirmPassword"
         name="confirmPassword"
+        placeholder="Confirm Password"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
         required
