@@ -65,11 +65,11 @@ const SignUpForm=({signupUser}) =>{
   return (
     <div className="Signup">
 
-    <h1>Jurnal</h1>
+    <h1 className="app-title">Jurnal</h1>
     <div className="center-box">
     <form action="POST">
       <h2>Signup</h2>
-      <label htmlFor="username"><FontAwesomeIcon icon={faUser} className="user-icon" /></label>
+      <label htmlFor="username"></label>
         <input
           type="username"
           id="username"
@@ -80,7 +80,7 @@ const SignUpForm=({signupUser}) =>{
           required
         />
         <br />
-        <label htmlFor="password"><FontAwesomeIcon icon={faLock} className="user-icon" /></label>
+        <label htmlFor="password"></label>
         <input
           type="password"
           id="password"
@@ -91,7 +91,7 @@ const SignUpForm=({signupUser}) =>{
           required
         />
         <br />
-        <label htmlFor="confirmPassword"><FontAwesomeIcon icon={faLock} className="user-icon" /></label>
+        <label htmlFor="confirmPassword"></label>
         <input
         type="password"
         id="confirmPassword"
@@ -101,6 +101,7 @@ const SignUpForm=({signupUser}) =>{
         onChange={(e) => setConfirmPassword(e.target.value)}
         required
         />
+        <br />
         <br />
         {errorMessage && <div className="error">{errorMessage}</div>}        
         <input type="submit" onClick={submit} />

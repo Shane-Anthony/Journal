@@ -2,9 +2,6 @@ import "./Styles.css";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -53,11 +50,11 @@ const LoginForm =({loginUser})=> {
   return (
     <div className="login">
 
-      <h1>Jurnal</h1>
+      <h1 className="app-title">Jurnal</h1>
       <div className="center-box">
         <form action="POST">
           <h2>Login</h2>
-          <label htmlFor="username"><FontAwesomeIcon icon={faUser} className="user-icon" /></label>
+          <label htmlFor="username"></label>
           
           <input
             type="username"
@@ -69,7 +66,7 @@ const LoginForm =({loginUser})=> {
             required
           />
           <br />
-          <label htmlFor="password"><FontAwesomeIcon icon={faLock} className="user-icon" /></label>
+          <label htmlFor="password"></label>
           <input
             type="password"
             id="password"
