@@ -1,10 +1,7 @@
 import React, { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate, Link, History } from "react-router-dom"
 import axios from "axios";
-import "./Styles.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import ("./Styles.css")
 
 
 const SignUpForm=({signupUser}) =>{
@@ -39,15 +36,24 @@ const SignUpForm=({signupUser}) =>{
 
       await axios.post("http://localhost:8000/signup",{
         username,password
+      }, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
       })
       .then(res=>{
         if(res.data=="exist"){
           setErrorMessage("User already exists")
         }
-        else if(res.data.status==201){
+        else if(res.status==201){
+          console.log("Response: ",res)
           signupUser(username)
+          console.log("set user")
           setUser({id: username}); // set user state to the username
+          console.log("navigate home")
           history("/home")
+          console.log("after")
         }
       })
       .catch(e=>{

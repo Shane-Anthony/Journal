@@ -60,6 +60,7 @@ app.post("/signup",async(req,res)=>{
         else{
             await collection.insertMany([data])
             res.status(201).send("User created successfully");
+            console.log(res.statusCode)
             
         }
 
