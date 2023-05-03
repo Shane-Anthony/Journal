@@ -5,6 +5,7 @@ const JournalEntryPopup= ({user,onClose}) => {
  
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -17,6 +18,19 @@ const JournalEntryPopup= ({user,onClose}) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Validate title and body
+    if (!title || !body) {
+      setErrorMessage("Please fill in both title and body fields.");
+      return;
+    }
+
+    // Validate body length
+    const wordCount = body.trim().split(/\s+/).length;
+    if (wordCount > 200) {
+      setErrorMessage("Body field cannot exceed 200 words.");
+      return;
+    }
 
     const data = {
       title: title,
@@ -74,6 +88,7 @@ const JournalEntryPopup= ({user,onClose}) => {
             <option>Large</option>
           </select>
         </div>
+        {errorMessage && <div className="error">{errorMessage}</div>}
         <button onClick={handleSubmit}>Save</button>
       </div>
     </div>
