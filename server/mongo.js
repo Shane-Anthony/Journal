@@ -3,27 +3,47 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb+srv://User:Password@projectcluster.rhnl8pu.mongodb.net/Journal")
-.then(()=>{
-    console.log("MongoDB Connected");
-})
-.catch(()=>{
-    console.log('Connection Failed');
-})
 
 
-const newSchema=new mongoose.Schema({
+// Define schema for users
+const userSchema = new mongoose.Schema({
     username:{
-        type:String,
-        required:true,
-        unique:true
+      type:String,
+      required:true,
+      unique:true
     },
     password:{
-        type:String,
-        required:true
+      type:String,
+      required:true
+    },
+    journalEntries: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'JournalEntry'
+    }]
+  });
+
+// Define schema for journal entries
+const journalSchema = new mongoose.Schema({
+    title: {
+      type: String,
+      required: true
+    },
+    body: {
+      type: String,
+      required: true
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
     }
-})
+  });
 
-const collection = mongoose.model("Users",newSchema)
+const user = mongoose.model('User', userSchema);
+const journalEntry = mongoose.model('JournalEntry', journalSchema);
 
-module.exports=collection;
+module.exports = { user, journalEntry };

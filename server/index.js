@@ -1,8 +1,18 @@
 // Import required modules
 const express = require("express")
+const mongoose = require('mongoose');
 const collection = require("./mongo")
 const cors = require("cors")
 const crypto = require("crypto");
+const { user, journalEntry } = require('./mongo');
+
+mongoose.connect("mongodb+srv://User:Password@projectcluster.rhnl8pu.mongodb.net/Journal")
+.then(()=>{
+    console.log("MongoDB Connected");
+})
+.catch(()=>{
+    console.log('Connection Failed');
+})
 
 // Set up Express app
 const app = express()
@@ -21,7 +31,7 @@ app.post("/",async(req,res)=>{
     const{username,password}=req.body
 
     try{
-        const check=await collection.findOne({
+        const check=await user.findOne({
             username:username , 
             password: crypto.createHash("sha256").update(password).digest("hex")
         });
@@ -52,13 +62,13 @@ app.post("/signup",async(req,res)=>{
     };
 
     try{
-        const check=await collection.findOne({username:username})
+        const check=await user.findOne({username:username})
 
         if(check){
             res.json("exist")
         }
         else{
-            await collection.insertMany([data])
+            await user.insertMany([data])
             res.status(201).send("User created successfully");
             console.log(res.statusCode)
             
