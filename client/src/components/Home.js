@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useLocation, useNavigate, Link} from 'react-router-dom';
 import JournalEntryPopup from './JournalEntryPopup';
+
 
 const Home = ({user, setUser}) => {
   const [showPopup, setShowPopup] = useState(false);
+  const history = useNavigate();
 
   const handleAddEntryClick = () => {
     setShowPopup(true);
+    history('/create-entry');
   };
 
   const handleClosePopup = () => {
@@ -21,7 +24,7 @@ const Home = ({user, setUser}) => {
         
         
         <button onClick={handleAddEntryClick}>Add Entry</button>
-      {showPopup && <JournalEntryPopup onClose={handleClosePopup} />}
+      {showPopup && <JournalEntryPopup onClose={handleClosePopup} user={user}/>}
         
       </div>
     );

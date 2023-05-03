@@ -1,26 +1,65 @@
-import React, { useState } from 'react';
-import './Styles.css';
+import React, { useState } from "react";
+import "./Styles.css";
 
-function JournalEntryPopup(props) {
-  const [text, setText] = useState('');
+const JournalEntryPopup= ({user,onClose}) => {
+ 
+  const [title, setTitle] = useState('');
+  const [body, setBody] = useState('');
 
-  const handleChange = (event) => {
-    setText(event.target.value);
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
   };
 
-  const handleSave = () => {
-    // Save the journal entry text and customization options
-    // ...
-    // Close the popup
-    props.onClose();
+  const handleBodyChange = (event) => {
+    setBody(event.target.value);
+  };
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const data = {
+      title: title,
+      body: body,
+      username: user.id,
+    };
+
+    try {
+      const response = await fetch("http://localhost:8000/create-entry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        const result = await response.text();
+        const parsedResult = result ? JSON.parse(result) : null;
+        console.log("Entry Saved.");
+       
+        // Close the popup after successful save
+        onClose();
+
+      } else {
+        console.log('Error:', response.status);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div className="popup">
       <div className="popup-inner">
+        <p>Write a Journal entry.... {user.id}</p>
+        <input
+          value={title}
+          onChange={handleTitleChange}
+          placeholder="Title"
+        />
         <textarea
-          value={text}
-          onChange={handleChange}
+          value={body}
+          onChange={handleBodyChange}
           placeholder="Write your journal entry here..."
         />
         <div className="options">
@@ -35,7 +74,7 @@ function JournalEntryPopup(props) {
             <option>Large</option>
           </select>
         </div>
-        <button onClick={handleSave}>Save</button>
+        <button onClick={handleSubmit}>Save</button>
       </div>
     </div>
   );

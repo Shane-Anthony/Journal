@@ -7,43 +7,34 @@ const mongoose = require('mongoose');
 
 // Define schema for users
 const userSchema = new mongoose.Schema({
-    username:{
-      type:String,
-      required:true,
-      unique:true
-    },
-    password:{
-      type:String,
-      required:true
-    },
-    journalEntries: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'JournalEntry'
-    }]
-  });
-
-// Define schema for journal entries
-const journalSchema = new mongoose.Schema({
-    title: {
+    username: {
       type: String,
-      required: true
+      required: true,
+      unique: true,
     },
-    body: {
+    password: {
       type: String,
-      required: true
+      required: true,
     },
-    date: {
-        type: Date,
-        default: Date.now
-    },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
-    }
+    journalEntries: [
+      {
+        title: {
+          type: String,
+          required: true,
+        },
+        body: {
+          type: String,
+          required: true,
+        },
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   });
 
 const user = mongoose.model('User', userSchema);
-const journalEntry = mongoose.model('JournalEntry', journalSchema);
 
-module.exports = { user, journalEntry };
+
+module.exports = { user};

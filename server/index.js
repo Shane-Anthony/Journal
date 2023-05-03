@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const collection = require("./mongo")
 const cors = require("cors")
 const crypto = require("crypto");
-const { user, journalEntry } = require('./mongo');
+const { user } = require('./mongo');
+
 
 mongoose.connect("mongodb+srv://User:Password@projectcluster.rhnl8pu.mongodb.net/Journal")
 .then(()=>{
@@ -81,6 +82,25 @@ app.post("/signup",async(req,res)=>{
     }
 
 })
+
+app.post('/create-entry', async (req, res) => {
+  try {
+    const { title, body, username } = req.body;
+    const userDoc = await user.findOneAndUpdate(
+      { username },
+      { $push: { journalEntries: { title, body } } },
+      { new: true } // return the updated user object
+    );
+
+    res.status(201).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
 
 // Handle 404 errors
 app.use(function(req, res, next) {
