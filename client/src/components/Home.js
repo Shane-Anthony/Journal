@@ -21,13 +21,13 @@ const Home = ({ user, setUser }) => {
     setShowPopup(false);
   };
 
+  const fetchEntries = async () => {
+    const response = await fetch(`http://localhost:8000/home/${user.id}`);
+    const data = await response.json();
+    setEntries(data);
+  };
+    
   useEffect(() => {
-    const fetchEntries = async () => {
-      const response = await fetch(`http://localhost:8000/home/${user.id}`);
-      const data = await response.json();
-      setEntries(data);
-    };
-  
     let intervalId = setInterval(() => {
       fetchEntries();
     }, 3000);
@@ -51,7 +51,8 @@ const Home = ({ user, setUser }) => {
         }
       })
       .filter(entry =>
-        entry.title.toLowerCase().includes(searchQuery.toLowerCase())
+        entry.title.toLowerCase().includes(searchQuery.toLowerCase())||
+        entry.body.toLowerCase().includes(searchQuery.toLowerCase())
       );
     setFilteredEntries(filteredAndSortedEntries);
   }, [entries, searchQuery, sortOrder]);
@@ -61,11 +62,7 @@ const Home = ({ user, setUser }) => {
   };
 
   const handleSortClick = () => {
-    if (sortOrder === 'asc') {
-      setSortOrder('desc');
-    } else {
-      setSortOrder('asc');
-    }
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
   
   const handleDeleteClick = async id => {
@@ -118,6 +115,7 @@ const Home = ({ user, setUser }) => {
   }
   else{
     history('/');
+    return null;
   }
   
 };
