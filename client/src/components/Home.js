@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import JournalEntryPopup from './JournalEntryPopup';
 import './Styles.css';
+import Sidebar from './Sidebar';
 
 const Home = ({ user, setUser }) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -66,38 +67,52 @@ const Home = ({ user, setUser }) => {
       setSortOrder('asc');
     }
   };
-
+  
+  const handleDeleteClick = async id => {
+    await fetch(`http://localhost:8000/delete-entry/${user.id}/${id}`, {
+      method: 'DELETE',
+    });
+    const newEntries = entries.filter(entry => entry._id !== id);
+    setEntries(newEntries);
+  };
+  
+  
   if (user !== null) {
     return (
-      <div>
-        <h1>Welcome, {user.id}!</h1>
-        <button onClick={() => setUser(null)}>Log out</button>
+      <div className="container">
+        <Sidebar />
+        <div className="main-content">
+          <h1>Welcome, {user.id}!</h1>
+          <button onClick={() => setUser(null)}>Log out</button>
 
-        <div>
-          <label htmlFor="search">Search entries:</label>
-          <input
-            type="text"
-            id="search"
-            value={searchQuery}
-            onChange={handleSearchChange}
-          />
-        </div>
-
-        <div>
-          <p>Sort order: {sortOrder.toUpperCase()}</p>
-          <button onClick={handleSortClick}>Toggle Sort Order</button>
-        </div>
-
-        {filteredEntries.map(entry => (
-          <div key={entry._id} className="entryBox">
-            <h2>{entry.title}</h2>
-            <p>{entry.body}</p>
-            <p>{new Date(entry.date).toLocaleDateString()}</p>
+          <div>
+            <label htmlFor="search">Search entries:</label>
+            <input
+              type="text"
+              id="search"
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
           </div>
-        ))}
 
-        <button onClick={handleAddEntryClick}>Add Entry</button>
-        {showPopup && <JournalEntryPopup onClose={handleClosePopup} user={user} />}
+          <div>
+            <p>Sort order: {sortOrder.toUpperCase()}</p>
+            <button onClick={handleSortClick}>Toggle Sort Order</button>
+          </div>
+
+          {filteredEntries.map(entry => (
+            <div key={entry._id} className="entryBox">
+              <h2>{entry.title}</h2>
+              <p>{entry.body}</p>
+              <p>{new Date(entry.date).toLocaleDateString()}</p>
+              <button onClick={() => handleDeleteClick(entry._id)}>Delete</button>
+            </div>
+          ))}
+
+          <button onClick={handleAddEntryClick}>Add Entry</button>
+          {showPopup && <JournalEntryPopup onClose={handleClosePopup} user={user} />}
+        </div>
+
       </div>
     );
   }

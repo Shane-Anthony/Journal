@@ -1,7 +1,6 @@
 // Import required modules
 const express = require("express")
 const mongoose = require('mongoose');
-const collection = require("./mongo")
 const cors = require("cors")
 const crypto = require("crypto");
 const { user } = require('./mongo');
@@ -102,13 +101,41 @@ app.post('/create-entry', async (req, res) => {
 app.get('/home/:userId', async (req, res) => {
     const userId = req.params.userId;
     try {
-      const userDoc = await user.findOne({ username: userId });
-      res.status(200).json(userDoc.journalEntries);
+        const userDoc = await user.findOne({ username: userId });
+        res.status(200).json(userDoc.journalEntries);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+        }
+});
+  
+
+app.delete('/delete-entry/:userId/:entryId', async (req, res) => {
+    const { userId, entryId } = req.params;
+    const username = userId;
+    try {
+      console.log(`Deleting entry ${entryId} for user ${username}`);
+      const userDoc = await user.findOneAndUpdate(
+        { username },
+        { $pull: { journalEntries: { _id: entryId } } },
+        { new: true }
+      );
+  
+      console.log(`UserDoc: ${userDoc}`);
+      if (!userDoc) {
+        console.log(`User ${username} not found`);
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      console.log(`Journal entry ${entryId} deleted successfully`);
+      res.status(200).json({ message: 'Journal entry deleted successfully' });
+      console.log(`Response status code: ${res.statusCode}`);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server error' });
     }
   });
+  
   
   
   

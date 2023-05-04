@@ -33,6 +33,15 @@ input[type=password]:focus, input[type=username]:focus{
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
+.container {
+  display: flex;
+}
+.main-content {
+  flex: 1;
+  padding-left: 25%;
+  padding-right: 10%;
+}
+
 .center-box {
   background-color: #545A62;
   width: 50%;
@@ -121,6 +130,37 @@ input[type=password]:focus, input[type=username]:focus{
   border: 1px solid black;
   padding: 10px;
   margin-bottom: 10px;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 20%;
+  background: #545A62;
+  z-index: 1;
+  overflow-x: hidden;
+  padding-top: 60px;
+  
+  justify-content: center;
+  text-align: center;
+  color: #FFF;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+li:hover {
+  color: #FFC107;
 }
 
   
