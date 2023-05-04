@@ -116,12 +116,10 @@ const Home = ({ user, setUser }) => {
       </div>
     );
   }
-
-  return (
-    <div>
-      <h1>You need to <Link to="/">Log in</Link> first</h1> 
-    </div>
-  );
+  else{
+    history('/');
+  }
+  
 };
 
 export default Home;
