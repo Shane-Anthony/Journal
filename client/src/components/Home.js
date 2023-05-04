@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import JournalEntryPopup from './JournalEntryPopup';
+import './Styles.css';
 
 const Home = ({ user, setUser }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [entries, setEntries] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredEntries, setFilteredEntries] = useState([]);
+  const [sortOrder, setSortOrder] = useState('asc');
   const history = useNavigate();
 
   const handleAddEntryClick = () => {
@@ -36,14 +40,56 @@ const Home = ({ user, setUser }) => {
     };
   }, [user]);
 
+  useEffect(() => {
+    const filteredAndSortedEntries = entries
+      .sort((a, b) => {
+        if (sortOrder === 'asc') {
+          return new Date(a.date) - new Date(b.date);
+        } else {
+          return new Date(b.date) - new Date(a.date);
+        }
+      })
+      .filter(entry =>
+        entry.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    setFilteredEntries(filteredAndSortedEntries);
+  }, [entries, searchQuery, sortOrder]);
+
+  const handleSearchChange = event => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSortClick = () => {
+    if (sortOrder === 'asc') {
+      setSortOrder('desc');
+    } else {
+      setSortOrder('asc');
+    }
+  };
+
   if (user !== null) {
     return (
       <div>
         <h1>Welcome, {user.id}!</h1>
         <button onClick={() => setUser(null)}>Log out</button>
 
-        {entries.map(entry => (
-          <div key={entry._id}>
+        <div>
+          <label htmlFor="search">Search entries:</label>
+          <input
+            type="text"
+            id="search"
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+        </div>
+
+        <div>
+          <p>Sort order: {sortOrder.toUpperCase()}</p>
+          <button onClick={handleSortClick}>Toggle Sort Order</button>
+        </div>
+
+        {filteredEntries.map(entry => (
+          <div key={entry._id} className="entryBox">
             <h2>{entry.title}</h2>
             <p>{entry.body}</p>
             <p>{new Date(entry.date).toLocaleDateString()}</p>
