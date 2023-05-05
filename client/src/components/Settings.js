@@ -4,42 +4,37 @@ import Sidebar from './Sidebar';
 
 
 const Settings = ({user, setUser}) => {
-    const history = useNavigate();
-    const handleAboutClick = () => {
-        // Handle About button click
-        history('/about');
-      };
+  const history = useNavigate();
+  const handleAboutClick = () => {
+    // Handle About button click
+    history('/about');
+  };
     
-      const handleAccountSettingsClick = () => {
-        // Handle Account Settings button click
-        history('/account-settings');
-      };
+  const handleAccountSettingsClick = () => {
+    // Handle Account Settings button click
+    history('/account-settings');
+  };
     
-      const handleLogoutClick = () => {
-        // Handle Log Out button click
-        // Call a function to log the user out
-        // Redirect the user to the login page
-        history('/');
-      };
-    if (user !== null) {
-        return (
-            <div>
-                <Sidebar />
-                <div className='main-content'>
-                    <h1>Settings</h1>
-                    <button onClick={handleAboutClick}>About</button>
-                    <button onClick={handleAccountSettingsClick}>Account Settings</button>
-                    <button onClick={() => setUser(null)}>Log out</button>
+      
+  if (user !== null) {
+    return (
+      <div>
+        <Sidebar />
+        <div className='main-content'>
+          <h1>Settings</h1>
+          <button onClick={handleAboutClick}>About</button>
+          <button onClick={handleAccountSettingsClick}>Account Settings</button>
+          <button onClick={() => setUser(null)}>Log out</button>
 
 
-                </div>
-            </div>
-        );
-    }
-    else{
-        history('/');
-        return null;
-      }
+        </div>
+      </div>
+    );
+  }
+  else{
+    history('/');
+    return null;
+  }
   
 };
 
