@@ -98,6 +98,103 @@ app.post('/create-entry', async (req, res) => {
   }
 });
 
+app.post('/share-entry/:username/:entryId/:userId', async (req, res) => {
+    try {
+      const { entryId, userId } = req.params; // Retrieve entryId and userId from URL parameters
+      const { username } = req.params; // Retrieve currentUser from URL parameters
+      const userDoc = await user.findOne({username:username});
+      console.log('currentUser:', userDoc);
+      console.log('Sharing with:', userId);
+  
+      // Check if the current user has access to the journal entry
+      if (!userDoc.journalEntries || !userDoc.journalEntries.length) {
+        return res.status(404).json({ message: 'Journal entries not found' });
+      }
+      const entryToShare = userDoc.journalEntries.find(entry => entry.id === entryId);
+      console.log('entryToShare:', entryToShare);
+      if (!entryToShare) {
+        return res.status(404).json({ message: 'Journal entry not found' });
+      }
+  
+      // Check if the user to share with exists
+      const userToShareWith = await user.findById(userId);
+      //console.log('userToShareWith:', userToShareWith);
+      if (!userToShareWith) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Check if the user to share with is the current user
+      if (userToShareWith.id === userDoc.id) {
+        return res.status(400).json({ message: 'Cannot share with yourself' });
+      }
+  
+      // Check if the entry is already shared with the user
+      if (entryToShare.sharedWith.includes(userToShareWith.id)) {
+        return res.status(400).json({ message: 'Entry is already shared with this user' });
+      }
+  
+      // Add the user to share with to the entry's sharedWith array
+      entryToShare.sharedWith.push(userToShareWith.id);
+      await userDoc.save();
+  
+      res.status(200).json({ message: 'Entry shared successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+});
+  
+// Handle GET requests to retrieve shared entries for a user
+app.get('/shared-entries/:userId', async (req, res) => {
+    const userId = req.params.userId;
+    console.log(`Retrieving shared entries for user: ${userId}`);
+    try {
+        // Find the user in the database
+        const userDoc = await user.findOne({ username: userId });
+        if (!userDoc) {
+            console.log(`User ${userId} not found`);
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Find all entries that have been shared with this user
+        const sharedEntries = [];
+
+        // Loop through all users in the database
+        const allUsers = await user.find({});
+        for (let i = 0; i < allUsers.length; i++) {
+            const currentUser = allUsers[i];
+            if (currentUser.username === userId) {
+                // Skip if this is the user we're retrieving shared entries for
+                continue;
+            }
+
+            // Loop through all the journal entries of the current user
+            const entries = currentUser.journalEntries;
+            for (let j = 0; j < entries.length; j++) {
+                const entry = entries[j];
+                const sharedWith = entry.sharedWith.map(obj => obj.toString()); // Convert ObjectId to string for comparison
+                console.log(`Entry ${entry._id} is shared with users: ${sharedWith}`);
+                if (sharedWith.includes(userDoc._id.toString())) {
+                    console.log(`Adding entry ${entry._id} to shared entries`);
+                    sharedEntries.push(entry);
+                }
+            }
+        }
+
+        console.log(`Shared entries for user ${userId}: ${sharedEntries}`);
+        res.status(200).json(sharedEntries);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+
+  
+  
+  
+  
+
 app.get('/home/:userId', async (req, res) => {
     const userId = req.params.userId;
     try {

@@ -73,6 +73,24 @@ const Home = ({ user, setUser }) => {
     setEntries(newEntries);
   };
   
+  const handleShareClick = async (entryId) => {
+    const userId = prompt('Enter the ID of the user you want to share this entry with:');
+    if (!userId) {
+      return;
+    }
+    console.log(entryId)
+
+    const response = await fetch(`http://localhost:8000/share-entry/${user.id}/${entryId}/${userId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId }),
+    });
+  
+    const data = await response.json();
+    alert(data.message);
+  };
   
   if (user !== null) {
     return (
@@ -103,6 +121,7 @@ const Home = ({ user, setUser }) => {
               <p>{entry.body}</p>
               <p>{new Date(entry.date).toLocaleDateString()}</p>
               <button onClick={() => handleDeleteClick(entry._id)}>Delete</button>
+              <button onClick={() => handleShareClick(entry._id)}>Share</button>
             </div>
           ))}
 
