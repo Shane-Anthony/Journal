@@ -97,33 +97,43 @@ const Home = ({ user, setUser }) => {
       <div className="container">
         <Sidebar />
         <div className="main-content">
-          <h1>Welcome, {user.id}!</h1>
-          <button onClick={() => setUser(null)}>Log out</button>
+          <h1 className="title">{user.id}'s Jurnal Entries</h1>
 
           <div>
-            <label htmlFor="search">Search entries:</label>
+            <label htmlFor="search"></label>
             <input
               type="text"
               id="search"
+              placeholder='Search Entries '
               value={searchQuery}
               onChange={handleSearchChange}
             />
           </div>
-
+          <br />
           <div>
-            <p>Sort order: {sortOrder.toUpperCase()}</p>
-            <button onClick={handleSortClick}>Toggle Sort Order</button>
+            <button className={`sort-order-button ${sortOrder}`} onClick={handleSortClick}>Date: {sortOrder.toUpperCase()}</button>
           </div>
+          <br />
+
+
 
           {filteredEntries.map(entry => (
             <div key={entry._id} className="entryBox">
               <h2>{entry.title}</h2>
               <p>{entry.body}</p>
-              <p>{new Date(entry.date).toLocaleDateString()}</p>
-              <button onClick={() => handleDeleteClick(entry._id)}>Delete</button>
-              <button onClick={() => handleShareClick(entry._id)}>Share</button>
+              <div className="buttons-container">
+                <div className="date">Entry Date: {new Date(entry.date).toLocaleDateString()}</div>
+                <button className="share-btn" onClick={() => handleShareClick(entry._id)}>
+                  Share
+                </button>
+                <button className="delete-btn" onClick={() => handleDeleteClick(entry._id)}>
+                  <i className="fas fa-trash-alt"></i>  Delete
+                </button>
+              </div>
             </div>
           ))}
+
+
 
           <button onClick={handleAddEntryClick}>Add Entry</button>
           {showPopup && <JournalEntryPopup onClose={handleClosePopup} user={user} />}

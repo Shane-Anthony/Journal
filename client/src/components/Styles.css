@@ -87,6 +87,7 @@ input[type=password]:focus, input[type=username]:focus{
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 }
 
 .popup-inner {
@@ -127,12 +128,68 @@ input[type=password]:focus, input[type=username]:focus{
   cursor: pointer;
 }
 .entryBox {
-  
+  position: relative;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   background: #FFFFFF;
   border-radius: 17px;
+  height: auto;
 }
+
+.entryBox::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  border-radius: 0 0 17px 17px;
+  background-color: #D9D9D9; 
+}
+.entryBox p {
+  margin-bottom: 40px; /* added some margin here */
+}
+
+.buttons-container {
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+  height: 25px;
+  z-index: 5;
+  
+}
+.buttons-container button {
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+}
+.buttons-container button.delete-btn {
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.buttons-container button.delete-btn:hover {
+  background-color: #b40707;
+  color: #FFFFFF;
+}
+
+.buttons-container button.share-btn:hover {
+  background-color: #717274;
+  color: #FFFFFF;
+}
+
+
 
 .sidebar {
   position: fixed;
@@ -170,6 +227,34 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.title {
+  text-align: center; 
+  font-weight: 400; 
+}
+
+.sort-order-button::before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 5px solid #999;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.sort-order-button.asc::before {
+  border-top: 0;
+  border-bottom: 5px solid #999;
+}
+
+.sort-order-button.desc::before {
+  border-top: 5px solid #999;
+  border-bottom: 0;
+}
+
+
 
   
   

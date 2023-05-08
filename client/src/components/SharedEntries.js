@@ -21,7 +21,7 @@ const SharedEntries = ({ user, setUser }) => {
   return (
     <div className='main-content'>
       <Sidebar />
-      <h1>Shared Entries</h1>
+      <h1 className='title'>Shared Entries</h1>
       <button onClick={handleRefresh}>Refresh</button>
       <ul>
         {entries.map((entry) => (

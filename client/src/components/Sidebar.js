@@ -11,6 +11,7 @@ const Sidebar = () => {
             <li><Link to="/shared-entries">Shared Entries</Link></li>
             <li>Contacts</li>
             <li><Link to="/settings">Settings</Link></li>
+            
         </ul>
     </div>
   );
