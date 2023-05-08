@@ -95,7 +95,7 @@ const Home = ({ user, setUser }) => {
   if (user !== null) {
     return (
       <div className="container">
-        <Sidebar />
+        <Sidebar handleAddEntryClick={handleAddEntryClick} isHomePage={true} />
         <div className="main-content">
           <h1 className="title">{user.id}'s Jurnal Entries</h1>
 
@@ -135,7 +135,7 @@ const Home = ({ user, setUser }) => {
 
 
 
-          <button onClick={handleAddEntryClick}>Add Entry</button>
+
           {showPopup && <JournalEntryPopup onClose={handleClosePopup} user={user} />}
         </div>
 
