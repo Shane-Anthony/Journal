@@ -74,18 +74,18 @@ const Home = ({ user, setUser }) => {
   };
   
   const handleShareClick = async (entryId) => {
-    const userId = prompt('Enter the ID of the user you want to share this entry with:');
-    if (!userId) {
+    const username = prompt('Enter the username of the user you want to share this entry with:');
+    if (!username) {
       return;
     }
     console.log(entryId)
 
-    const response = await fetch(`http://localhost:8000/share-entry/${user.id}/${entryId}/${userId}`, {
+    const response = await fetch(`http://localhost:8000/share-entry/${user.id}/${entryId}/${username}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({ username }),
     });
   
     const data = await response.json();

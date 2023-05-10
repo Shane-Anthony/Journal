@@ -114,13 +114,14 @@ app.post('/create-entry', async (req, res) => {
 
 
 
-app.post('/share-entry/:username/:entryId/:userId', async (req, res) => {
+app.post('/share-entry/:username/:entryId/:shareUsername', async (req, res) => {
   try {
-    const { entryId, userId } = req.params; // Retrieve entryId and userId from URL parameters
-    const { username } = req.params; // Retrieve currentUser from URL parameters
+    const { entryId} = req.params; // Retrieve entryId and userId from URL parameters
+    const { username } = req.params;// Retrieve currentUser from URL parameters
+    const { shareUsername} = req.params; 
     const userDoc = await user.findOne({username:username});
     console.log('currentUser:', userDoc);
-    console.log('Sharing with:', userId);
+    console.log('Sharing with:', shareUsername);
 
     // Check if the current user has access to the journal entry
     if (!userDoc.journalEntries || !userDoc.journalEntries.length) {
@@ -133,7 +134,7 @@ app.post('/share-entry/:username/:entryId/:userId', async (req, res) => {
     }
 
     // Check if the user to share with exists
-    const userToShareWith = await user.findById(userId);
+    const userToShareWith = await user.findOne({username: shareUsername});
     //console.log('userToShareWith:', userToShareWith);
     if (!userToShareWith) {
       return res.status(404).json({ message: 'User not found' });
