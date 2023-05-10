@@ -24,18 +24,14 @@ const SharedEntries = ({ user, setUser }) => {
       <h1 className='title'>Shared Entries</h1>
       <button onClick={handleRefresh}>Refresh</button>
       <ul>
-        {entries.map((entry) => (
-          <div className='entryBox' key={entry._id}>
-            <h3>{entry.title}</h3>
-            <p>{entry.body}</p>
-            <p>Shared with:</p>
-            <ul>
-              {entry.sharedWith.map((user) => (
-                <li key={user._id}>{user.username}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
+      {entries.map((entry) => (
+        <div className='entryBox' key={entry._id}>
+          <h3>{entry.title}</h3>
+          <p>{entry.body}</p>
+          <p>Shared by: {entry.sharedBy}</p>
+        </div>
+      ))}
+
       </ul>
     </div>
   );

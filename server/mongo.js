@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
           type: Date,
           default: Date.now,
         },
+        sharedBy:{
+          type: String,
+          required: true
+        },
         sharedWith: {
           type: [mongoose.Schema.Types.ObjectId],
           ref: 'User',
