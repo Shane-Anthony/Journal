@@ -22,7 +22,7 @@ const Settings = ({user, setUser}) => {
         <Sidebar />
         <div className='main-content'>
           <h1>Settings</h1>
-          <button onClick={handleAboutClick}>About</button>
+          <Link to="/about"><button>About Page</button></Link>
           <button onClick={handleAccountSettingsClick}>Account Settings</button>
           <button onClick={() => setUser(null)}>Log out</button>
 
