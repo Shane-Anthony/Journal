@@ -29,6 +29,11 @@ const SharedEntries = ({ user, setUser }) => {
           <h3>{entry.title}</h3>
           <p>{entry.body}</p>
           <p>Shared by: {entry.sharedBy}</p>
+          <div className= 'buttons-container'>
+            
+            Entry Date: {new Date(entry.date).toLocaleDateString()}
+            
+          </div>
         </div>
       ))}
 
