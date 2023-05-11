@@ -6,6 +6,7 @@ import Home from './components/Home.js';
 import Settings from './components/Settings.js';
 import SharedEntries from './components/SharedEntries.js';
 import AboutPage from './components/About.js';
+import Contacts from './components/Contacts.js'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/settings" element={<Settings user={user} setUser={setUser} />} />
         <Route path="/shared-entries" element={<SharedEntries user={user} setUser={setUser} />} />
         <Route path="/about" element={<AboutPage user={user} setUser={setUser} />} />
+        <Route path='/contacts'element={<Contacts user={user} setUser={setUser} />} />
       </Routes>
     </Router>
   );

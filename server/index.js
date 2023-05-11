@@ -111,8 +111,59 @@ app.post('/create-entry', async (req, res) => {
   }
 });
 
+app.post('/contacts', async (req, res) => {
+  try {
+    console.log('Received POST request at /contacts');
+    console.log('Request body:', req.body);
 
+    const { name, contact, username } = req.body;
 
+    // Create a new contact object
+    const newContact = {
+      name: name,
+      contact: contact,
+    };
+
+    // Find the user by their username and update the contacts array
+    const updatedUser = await user.findOneAndUpdate(
+      { username },
+      { $push: { contacts: newContact } },
+      { new: true } // Return the updated user object
+    );
+    console.log('Updated User:', updatedUser);
+    res.status(201).json(updatedUser); // Send the updated user object as the response
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to add contact.' }); // Handle any error that occurred
+  }
+});
+
+app.get('/contacts/:userId', async (req, res) => {
+  const userId = req.params.userId
+  try {
+    console.log('recieved get request')
+    // Find the user by their username and retrieve their contacts
+    const userDoc = await user.findOne({ username : userId});
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    const contacts = user.contacts;
+    res.status(200).json(userDoc.contacts);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve contacts.' });
+  }
+});
+app.get('/home/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  try {
+      const userDoc = await user.findOne({ username: userId });
+      res.status(200).json(userDoc.journalEntries);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+      }
+});
 
 app.post('/share-entry/:username/:entryId/:shareUsername', async (req, res) => {
   try {

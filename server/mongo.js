@@ -40,6 +40,18 @@ const userSchema = new mongoose.Schema({
         },
       },
     ],
+    contacts:[
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+        contact:{
+          type: String,
+          required: true,
+        }
+      }
+    ]
   });
 
 const user = mongoose.model('User', userSchema);
