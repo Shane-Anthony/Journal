@@ -154,16 +154,7 @@ app.get('/contacts/:userId', async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve contacts.' });
   }
 });
-app.get('/home/:userId', async (req, res) => {
-  const userId = req.params.userId;
-  try {
-      const userDoc = await user.findOne({ username: userId });
-      res.status(200).json(userDoc.journalEntries);
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error' });
-      }
-});
+
 
 app.post('/share-entry/:username/:entryId/:shareUsername', async (req, res) => {
   try {

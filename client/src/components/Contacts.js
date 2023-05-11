@@ -78,18 +78,18 @@ const ContactForm = ({ user }) => {
         <h1 className='title'>{user.id}'s Contacts</h1>
         <form onSubmit={handleSubmit}>
           <label>
-            Name:
             <input
               type="text"
+              placeholder='Name'
               value={name}
               onChange={(event) => setName(event.target.value)}
             />
           </label>
           <br />
           <label>
-            Username:
             <input
               type="text"
+              placeholder='Username'
               value={contact}
               onChange={(event) => setContact(event.target.value)}
             />
@@ -97,7 +97,8 @@ const ContactForm = ({ user }) => {
           <br />
           <button type="submit">Add Contact</button>
         </form>
-
+        
+        <br />
         
         {contacts.map((contact, index) => (
             <div className="entryBox" key={index}>

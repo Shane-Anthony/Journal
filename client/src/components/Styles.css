@@ -254,6 +254,21 @@ a {
   border-bottom: 0;
 }
 
+.refreshButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  padding: 0.5rem;
+}
+
+.refreshButton:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
 
 
   
