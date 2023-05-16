@@ -22,7 +22,11 @@ const SharedEntries = ({ user, setUser }) => {
     <div className='main-content'>
       <Sidebar />
       <h1 className='title'>Shared Entries</h1>
-      <button onClick={handleRefresh}>Refresh</button>
+      <button className="refreshButton" onClick={handleRefresh}>
+          <i className="fas fa-sync-alt"></i>  
+        </button>
+      <br />
+      <br />
       <ul>
       {entries.map((entry) => (
         <div className='entryBox' key={entry._id}>
