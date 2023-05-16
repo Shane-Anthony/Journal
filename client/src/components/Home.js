@@ -30,7 +30,7 @@ const Home = ({ user, setUser }) => {
   useEffect(() => {
     let intervalId = setInterval(() => {
       fetchEntries();
-    }, 3000);
+    }, 50000000);
   
     if (user !== null) {
       fetchEntries();
@@ -43,17 +43,18 @@ const Home = ({ user, setUser }) => {
 
   useEffect(() => {
     const filteredAndSortedEntries = entries
-      .sort((a, b) => {
-        if (sortOrder === 'asc') {
-          return new Date(a.date) - new Date(b.date);
-        } else {
-          return new Date(b.date) - new Date(a.date);
-        }
-      })
-      .filter(entry =>
-        entry.title.toLowerCase().includes(searchQuery.toLowerCase())||
-        entry.body.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+  .sort((a, b) => {
+    if (sortOrder === 'asc') {
+      return new Date(a.date) - new Date(b.date);
+    } else {
+      return new Date(b.date) - new Date(a.date);
+    }
+  })
+  .filter(entry =>
+    entry.title && entry.body &&
+    (entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+     entry.body.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
     setFilteredEntries(filteredAndSortedEntries);
   }, [entries, searchQuery, sortOrder]);
 
@@ -121,6 +122,7 @@ const Home = ({ user, setUser }) => {
             <div key={entry._id} className="entryBox">
               <h2>{entry.title}</h2>
               <p>{entry.body}</p>
+              {entry.image && <img src={`http://localhost:8000/uploads/${entry.image}`} alt="Entry Image" />}
               <div className="buttons-container">
                 <div className="date">Entry Date: {new Date(entry.date).toLocaleDateString()}</div>
                 <button className="share-btn" onClick={() => handleShareClick(entry._id)}>

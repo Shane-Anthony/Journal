@@ -5,6 +5,7 @@ const JournalEntryPopup= ({user,onClose}) => {
  
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [imageFile, setImageFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleTitleChange = (event) => {
@@ -15,9 +16,14 @@ const JournalEntryPopup= ({user,onClose}) => {
     setBody(event.target.value);
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setImageFile(file);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log("Form submitted");
 
     // Validate title and body
     if (!title || !body) {
@@ -32,20 +38,20 @@ const JournalEntryPopup= ({user,onClose}) => {
       return;
     }
 
-    const data = {
-      title: title,
-      body: body,
-      username: user.id,
-    };
-
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("body", body);
+    formData.append("username", user.id);
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+    console.log(formData);
     try {
       const response = await fetch("http://localhost:8000/create-entry", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+        body: formData,
       });
+      console.log("Form data:", formData);
       if (response.ok) {
         const result = await response.text();
         const parsedResult = result ? JSON.parse(result) : null;
@@ -76,6 +82,8 @@ const JournalEntryPopup= ({user,onClose}) => {
           onChange={handleBodyChange}
           placeholder="Write your journal entry here..."
         />
+        <input type="file" onChange={handleImageChange} />
+
         <div className="options">
           <select>
             <option>Font 1</option>

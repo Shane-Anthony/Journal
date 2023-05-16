@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require("cors")
 const crypto = require("crypto");
 const { user } = require('./mongo');
+const multer = require('multer');
 
 
 mongoose.connect("mongodb+srv://User:Password@projectcluster.rhnl8pu.mongodb.net/Journal")
@@ -14,12 +15,23 @@ mongoose.connect("mongodb+srv://User:Password@projectcluster.rhnl8pu.mongodb.net
     console.log('Connection Failed');
 })
 
+// Configure multer storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
 // Set up Express app
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
+const upload = multer({ storage: storage });
 
 // Handle GET requests to root URL
 app.get("/",cors(),(req,res)=>{
@@ -82,7 +94,7 @@ app.post("/signup",async(req,res)=>{
 
 })
 
-app.post('/create-entry', async (req, res) => {
+app.post('/create-entry', upload.single('image'), async (req, res) => {
   try {
     const { title, body, username } = req.body;
     const sharedBy = await user.findOne({ username });
@@ -95,7 +107,8 @@ app.post('/create-entry', async (req, res) => {
     const newEntry = {
       title,
       body,
-      sharedBy: sharedBy.username // use the user's username directly
+      sharedBy: sharedBy.username, // use the user's username directly
+      image: req.file.filename, // add filename of uploaded image to newEntry
     };
 
     const userDoc = await user.findOneAndUpdate(
@@ -212,17 +225,19 @@ app.get('/shared-entries/:userId', async (req, res) => {
   
   
   
-  
+app.use('/uploads', express.static('uploads'));
 
 app.get('/home/:userId', async (req, res) => {
-    const userId = req.params.userId;
-    try {
-        const userDoc = await user.findOne({ username: userId });
-        res.status(200).json(userDoc.journalEntries);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
-        }
+  const userId = req.params.userId;
+  try {
+    const userDoc = await user.findOne({ username: userId });
+    const journalEntries = userDoc.journalEntries;
+    console.log(`Journal Entries for user ${userId}:`, journalEntries);
+    res.status(200).json(journalEntries);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
   
 
