@@ -71,6 +71,9 @@ const JournalEntryPopup= ({user,onClose}) => {
   return (
     <div className="popup">
       <div className="popup-inner">
+      <button className="close-button" onClick={onClose}>
+          X
+        </button>
         <p>Write a Journal entry.... {user.id}</p>
         <input
           value={title}

@@ -30,7 +30,7 @@ const Home = ({ user, setUser }) => {
   useEffect(() => {
     let intervalId = setInterval(() => {
       fetchEntries();
-    }, 50000000);
+    }, 3000);
   
     if (user !== null) {
       fetchEntries();
