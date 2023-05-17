@@ -24,13 +24,17 @@ const Home = ({ user, setUser }) => {
   const fetchEntries = async () => {
     const response = await fetch(`http://localhost:8000/home/${user.id}`);
     const data = await response.json();
-    setEntries(data);
+    const entriesWithColour = data.map(entry => ({
+      ...entry,
+      colour: entry.colour || 'black' // set default color to black if not provided by server
+    }));
+    setEntries(entriesWithColour);
   };
     
   useEffect(() => {
     let intervalId = setInterval(() => {
       fetchEntries();
-    }, 3000);
+    }, 9999);
   
     if (user !== null) {
       fetchEntries();
@@ -121,7 +125,7 @@ const Home = ({ user, setUser }) => {
           {filteredEntries.map(entry => (
             <div key={entry._id} className="entryBox">
               <h2>{entry.title}</h2>
-              <p>{entry.body}</p>
+              <p style={{ color: `${entry.colour}` }}> {entry.body}</p>
               {entry.image && <img src={`http://localhost:8000/uploads/${entry.image}`} alt="Entry Image" />}
               <div className="buttons-container">
                 <div className="date">Entry Date: {new Date(entry.date).toLocaleDateString()}</div>
@@ -134,6 +138,7 @@ const Home = ({ user, setUser }) => {
               </div>
             </div>
           ))}
+
 
 
 

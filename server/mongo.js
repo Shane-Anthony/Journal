@@ -34,6 +34,9 @@ const userSchema = new mongoose.Schema({
           type: Date,
           default: Date.now,
         },
+        colour: {
+          type: String,
+        },
         sharedBy:{
           type: String,
           required: true

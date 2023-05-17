@@ -6,6 +6,7 @@ const JournalEntryPopup= ({user,onClose}) => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [imageFile, setImageFile] = useState(null);
+  const [colour, setColour] = useState("#000000"); 
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleTitleChange = (event) => {
@@ -19,6 +20,10 @@ const JournalEntryPopup= ({user,onClose}) => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImageFile(file);
+  };
+
+  const handleColourChange = (event) => {
+    setColour(event.target.value);
   };
 
   const handleSubmit = async (event) => {
@@ -42,10 +47,12 @@ const JournalEntryPopup= ({user,onClose}) => {
     formData.append("title", title);
     formData.append("body", body);
     formData.append("username", user.id);
+    formData.append("colour", colour);
     if (imageFile) {
       formData.append("image", imageFile);
     }
     console.log(formData);
+    console.log(colour);
     try {
       const response = await fetch("http://localhost:8000/create-entry", {
         method: "POST",
@@ -68,6 +75,10 @@ const JournalEntryPopup= ({user,onClose}) => {
     }
   };
 
+  const inputStyle = {
+    color: colour,
+  };
+
   return (
     <div className="popup">
       <div className="popup-inner">
@@ -84,21 +95,14 @@ const JournalEntryPopup= ({user,onClose}) => {
           value={body}
           onChange={handleBodyChange}
           placeholder="Write your journal entry here..."
+          style={inputStyle}
         />
         <input type="file" onChange={handleImageChange} />
-
-        <div className="options">
-          <select>
-            <option>Font 1</option>
-            <option>Font 2</option>
-            <option>Font 3</option>
-          </select>
-          <select>
-            <option>Small</option>
-            <option>Medium</option>
-            <option>Large</option>
-          </select>
-        </div>
+        <input
+          type="color"
+          value={colour}
+          onChange={handleColourChange}
+        />
         {errorMessage && <div className="error">{errorMessage}</div>}
         <button onClick={handleSubmit}>Save</button>
       </div>

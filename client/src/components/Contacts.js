@@ -82,9 +82,7 @@ const ContactForm = ({ user }) => {
             <h3>Add Contact</h3>
           </div>
           <form onSubmit={handleSubmit}>
-            
             <label>
-             
               <input
                 type="text"
                 placeholder='Name'
@@ -93,7 +91,6 @@ const ContactForm = ({ user }) => {
               />
             </label>
             <label>
-             
               <input
                 type="text"
                 placeholder='Username'

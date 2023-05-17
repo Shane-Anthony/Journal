@@ -96,7 +96,7 @@ app.post("/signup",async(req,res)=>{
 
 app.post('/create-entry', upload.single('image'), async (req, res) => {
   try {
-    const { title, body, username } = req.body;
+    const { title, body, username, colour } = req.body;
     const sharedBy = await user.findOne({ username });
 
     if (!sharedBy) {
@@ -108,9 +108,11 @@ app.post('/create-entry', upload.single('image'), async (req, res) => {
       title,
       body,
       sharedBy: sharedBy.username, // use the user's username directly
-      image: req.file.filename, // add filename of uploaded image to newEntry
+      colour,
     };
-
+    if (req.file) {
+      newEntry.image = req.file.filename; // add filename of uploaded image to newEntry
+    }
     const userDoc = await user.findOneAndUpdate(
       { username },
       { $push: { journalEntries: newEntry } },
