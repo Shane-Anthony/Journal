@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './Sidebar';
 
 const ContactForm = ({ user }) => {
@@ -75,8 +77,12 @@ const ContactForm = ({ user }) => {
       <Sidebar />
       <div className='main-content'>
         <h1 className='title'>{user.id}'s Contacts</h1>
-         <div className='contactForm'>
+        <div className='contactForm'>
+          <div className='form-title'>
+            <h3>Add Contact</h3>
+          </div>
           <form onSubmit={handleSubmit}>
+            
             <label>
              
               <input
@@ -95,7 +101,7 @@ const ContactForm = ({ user }) => {
                 onChange={(event) => setContact(event.target.value)}
               />
             </label>
-            <button type="submit">Add Contact</button>
+            <button type="submit"><FontAwesomeIcon icon={faPlus} /></button>
           </form>
         </div>
 
@@ -103,7 +109,7 @@ const ContactForm = ({ user }) => {
 
         {contacts.map((contact, index) => (
           <div className="entryBox" key={index}>
-            <p>{contact.name}</p>
+            <h2>{contact.name}</h2>
             <p>Username: {contact.contact}</p>
           </div>
         ))}

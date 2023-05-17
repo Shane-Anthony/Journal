@@ -224,11 +224,13 @@ ul {
 }
 
 li {
+  display: block;
   margin-bottom: 1rem;
   cursor: pointer;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   padding: 10px;
   color: white;
+  text-align: center;
 }
 
 li:hover {
@@ -320,10 +322,19 @@ a {
   padding: 15px;
   margin-bottom: 20px;
   display: flex;
+  flex-direction: column; /* Added this line */
   align-items: center;
   justify-content: center;
   border-radius: 40px;
   color: white;
+}
+
+.form-title {
+  margin-bottom: 20px;
+}
+
+.form-title h3{
+  margin: 0;
 }
 
 .contactForm form {
@@ -346,7 +357,7 @@ a {
 .contactForm button {
   background-color: #545a62;
   color: white;
-  border: none;
+  border: 2px solid white;
   border-radius: 20px;
   padding: 10px 20px;
   cursor: pointer;
