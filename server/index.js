@@ -219,48 +219,48 @@ app.post('/share-entry/:username/:entryId/:shareUsername', async (req, res) => {
   
 // Handle GET requests to retrieve shared entries for a user
 app.get('/shared-entries/:userId', async (req, res) => {
-    const userId = req.params.userId;
-    console.log(`Retrieving shared entries for user: ${userId}`);
-    try {
-        // Find the user in the database
-        const userDoc = await user.findOne({ username: userId });
-        if (!userDoc) {
-            console.log(`User ${userId} not found`);
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        // Find all entries that have been shared with this user
-        const sharedEntries = [];
-
-        // Loop through all users in the database
-        const allUsers = await user.find({});
-        for (let i = 0; i < allUsers.length; i++) {
-            const currentUser = allUsers[i];
-            if (currentUser.username === userId) {
-                // Skip if this is the user we're retrieving shared entries for
-                continue;
-            }
-
-            // Loop through all the journal entries of the current user
-            const entries = currentUser.journalEntries;
-            for (let j = 0; j < entries.length; j++) {
-                const entry = entries[j];
-                const sharedWith = entry.sharedWith.map(obj => obj.toString()); // Convert ObjectId to string for comparison
-                console.log(`Entry ${entry._id} is shared with users: ${sharedWith}`);
-                if (sharedWith.includes(userDoc._id.toString())) {
-                    console.log(`Adding entry ${entry._id} to shared entries`);
-                    
-                    sharedEntries.push(entry);
-                }
-            }
-        }
-
-        console.log(`Shared entries for user ${userId}: ${sharedEntries}`);
-        res.status(200).json(sharedEntries);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+  const userId = req.params.userId;
+  console.log(`Retrieving shared entries for user: ${userId}`);
+  try {
+    // Find the user in the database
+    const userDoc = await user.findOne({ username: userId });
+    if (!userDoc) {
+      console.log(`User ${userId} not found`);
+      return res.status(404).json({ message: 'User not found' });
     }
+
+    // Find all entries that have been shared with this user
+    const sharedEntries = [];
+
+    // Loop through all users in the database
+    const allUsers = await user.find({});
+    for (let i = 0; i < allUsers.length; i++) {
+      const currentUser = allUsers[i];
+      if (currentUser.username === userId) {
+        // Skip if this is the user we're retrieving shared entries for
+        continue;
+      }
+
+      // Loop through all the journal entries of the current user
+      const entries = currentUser.journalEntries;
+      for (let j = 0; j < entries.length; j++) {
+        const entry = entries[j];
+        const sharedWith = entry.sharedWith.map(obj => obj.toString()); // Convert ObjectId to string for comparison
+        console.log(`Entry ${entry._id} is shared with users: ${sharedWith}`);
+        if (sharedWith.includes(userDoc._id.toString())) {
+          console.log(`Adding entry ${entry._id} to shared entries`);
+                    
+          sharedEntries.push(entry);
+        }
+      }
+    }
+
+    console.log(`Shared entries for user ${userId}: ${sharedEntries}`);
+    res.status(200).json(sharedEntries);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 
@@ -282,39 +282,60 @@ app.get('/home/:userId', async (req, res) => {
   }
 });
   
-
+// Delete Entry
 app.delete('/delete-entry/:userId/:entryId', async (req, res) => {
-    const { userId, entryId } = req.params;
-    const username = userId;
-    try {
-      console.log(`Deleting entry ${entryId} for user ${username}`);
-      const userDoc = await user.findOneAndUpdate(
-        { username },
-        { $pull: { journalEntries: { _id: entryId } } },
-        { new: true }
-      );
+  const { userId, entryId } = req.params;
+  const username = userId;
+  try {
+    console.log(`Deleting entry ${entryId} for user ${username}`);
+    const userDoc = await user.findOneAndUpdate(
+      { username },
+      { $pull: { journalEntries: { _id: entryId } } },
+      { new: true }
+    );
   
-      console.log(`UserDoc: ${userDoc}`);
-      if (!userDoc) {
-        console.log(`User ${username} not found`);
-        return res.status(404).json({ message: 'User not found' });
-      }
-  
-      console.log(`Journal entry ${entryId} deleted successfully`);
-      res.status(200).json({ message: 'Journal entry deleted successfully' });
-      console.log(`Response status code: ${res.statusCode}`);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error' });
+    console.log(`UserDoc: ${userDoc}`);
+    if (!userDoc) {
+      console.log(`User ${username} not found`);
+      return res.status(404).json({ message: 'User not found' });
     }
-  });
   
-  
-  
+    console.log(`Journal entry ${entryId} deleted successfully`);
+    res.status(200).json({ message: 'Journal entry deleted successfully' });
+    console.log(`Response status code: ${res.statusCode}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
   
 
+// Delete Account
+app.delete('/delete/:userId/', async (req, res) => {
+  try {
+    const { userId, password } = req.body;
+    console.log('Deleting account for user:', userId);
+    console.log('Received password:', password);
 
+    // Check if user exists and password is correct
+    const userDoc = await user.findOne({
+      username:userId , 
+      password: crypto.createHash("sha256").update(password).digest("hex")
+    });
+    
+    if (!userDoc || !password) {
+      return res.status(401).json({ message: 'Incorrect username or password.' });
+    }
 
+    // Delete user
+    await user.findOneAndDelete({ _id: userDoc._id });
+    console.log('Account deleted successfully');
+    res.status(200).json({ message: 'Account deleted successfully.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error.' });
+  }
+});
 
 // Handle 404 errors
 app.use(function(req, res, next) {
