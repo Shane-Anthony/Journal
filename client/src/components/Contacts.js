@@ -74,39 +74,39 @@ const ContactForm = ({ user }) => {
     <div>
       <Sidebar />
       <div className='main-content'>
-
         <h1 className='title'>{user.id}'s Contacts</h1>
-        <form onSubmit={handleSubmit}>
-          <label>
-            <input
-              type="text"
-              placeholder='Name'
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-            />
-          </label>
-          <br />
-          <label>
-            <input
-              type="text"
-              placeholder='Username'
-              value={contact}
-              onChange={(event) => setContact(event.target.value)}
-            />
-          </label>
-          <br />
-          <button type="submit">Add Contact</button>
-        </form>
-        
+         <div className='contactForm'>
+          <form onSubmit={handleSubmit}>
+            <label>
+             
+              <input
+                type="text"
+                placeholder='Name'
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+              />
+            </label>
+            <label>
+             
+              <input
+                type="text"
+                placeholder='Username'
+                value={contact}
+                onChange={(event) => setContact(event.target.value)}
+              />
+            </label>
+            <button type="submit">Add Contact</button>
+          </form>
+        </div>
+
         <br />
-        
+
         {contacts.map((contact, index) => (
-            <div className="entryBox" key={index}>
+          <div className="entryBox" key={index}>
             <p>{contact.name}</p>
             <p>Username: {contact.contact}</p>
-            </div>
+          </div>
         ))}
-
       </div>
     </div>
   );

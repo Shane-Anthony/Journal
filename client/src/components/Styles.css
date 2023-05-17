@@ -282,5 +282,78 @@ a {
 }
 
 
-  
-  
+
+
+/* Settings */
+.settingsButtons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
+  height: 80px;
+  border-radius: 40px;
+  background-color: white;
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+.settingsButtons:hover {
+  background-color: #545a62;
+  color: white;
+}
+.sButton-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+/* Contact Form */
+.contactForm {
+  background-color: #545a62;
+  padding: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  color: white;
+}
+
+.contactForm form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.contactForm label {
+  flex: 1;
+  margin-right: 20px;
+  min-width: 60px;
+}
+
+.contactForm input {
+  flex: 1;
+}
+
+.contactForm button {
+  background-color: #545a62;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contactForm button:hover {
+  background-color: white;
+  color: #545a62;
+}

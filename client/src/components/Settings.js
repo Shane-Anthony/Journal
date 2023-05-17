@@ -21,12 +21,18 @@ const Settings = ({user, setUser}) => {
       <div>
         <Sidebar />
         <div className='main-content'>
-          <h1>Settings</h1>
-          <Link to="/about"><button>About Page</button></Link>
-          <button onClick={handleAccountSettingsClick}>Account Settings</button>
-          <button onClick={() => setUser(null)}>Log out</button>
-
-
+          <h1 className='title'>Settings</h1>
+          <div className="sButton-container">
+            <Link to="/about">
+              <div className="settingsButtons">About Page</div>
+            </Link>
+            <div className="settingsButtons" onClick={handleAccountSettingsClick}>
+              Account Settings
+            </div>
+            <div className="settingsButtons" onClick={() => setUser(null)}>
+              Log out
+            </div>
+          </div>
         </div>
       </div>
     );

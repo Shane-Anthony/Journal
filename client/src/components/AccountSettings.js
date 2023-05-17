@@ -5,7 +5,11 @@ import Sidebar from './Sidebar';
 const AccountSettings = ({user, setUser}) => {
     const history = useNavigate();
     const [password, setPassword] = useState('');
+    const [showPasswordInput, setShowPasswordInput] = useState(false);
 
+    const handleDeleteButtonClick = () => {
+        setShowPasswordInput(true);
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -37,22 +41,26 @@ const AccountSettings = ({user, setUser}) => {
     <div>
         <Sidebar />
         <div className="main-content">
-        <h1 className='title'>Account Settings</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                Password:
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    required
-                />
-                </label>
-                <button type="submit">Delete Account</button>
-            </form>
+            <h1 className='title'>Account Settings</h1>
+            <div className="sButton-container">
+
+                <div className="settingsButtons" onClick={handleDeleteButtonClick}>Delete Account</div>
+            {showPasswordInput && (
+                <form onSubmit={handleSubmit}>
+                    <p>Please enter your password to confirm deletion:</p>
+                    <input
+                        type="password"
+                        value={password}
+                        placeholder="Password"
+                        onChange={(event) => setPassword(event.target.value)}
+                        required
+                    />
+                    <button type="submit">Confirm</button>
+                </form>
+            )}
+            </div>
+            
         </div>
-        
-        
     </div>
   );
 };
