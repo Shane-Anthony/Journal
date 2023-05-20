@@ -126,6 +126,7 @@ app.post('/create-entry', upload.single('image'), async (req, res) => {
   }
 });
 
+//add contact
 app.post('/contacts', async (req, res) => {
   try {
     console.log('Received POST request at /contacts');
@@ -152,6 +153,7 @@ app.post('/contacts', async (req, res) => {
   }
 });
 
+//display contacts
 app.get('/contacts/:userId', async (req, res) => {
   const userId = req.params.userId
   try {
@@ -170,7 +172,7 @@ app.get('/contacts/:userId', async (req, res) => {
   }
 });
 
-
+//share an entry
 app.post('/share-entry/:username/:entryId/:shareUsername', async (req, res) => {
   try {
     const { entryId} = req.params; // Retrieve entryId and userId from URL parameters
@@ -270,7 +272,7 @@ app.get('/shared-entries/:userId', async (req, res) => {
   
   
 app.use('/uploads', express.static('uploads'));
-
+//view user entries
 app.get('/home/:userId', async (req, res) => {
   const userId = req.params.userId;
   try {

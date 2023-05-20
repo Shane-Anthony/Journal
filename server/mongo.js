@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
           required: true,
         },
         image: {
-          type: String, // store the image URL as a string
+          type: String, 
           required: false,
         },
         date: {
@@ -59,7 +59,7 @@ const userSchema = new mongoose.Schema({
         }
       }
     ]
-  });
+});
 
 const user = mongoose.model('User', userSchema);
 
