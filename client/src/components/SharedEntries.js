@@ -30,8 +30,9 @@ const SharedEntries = ({ user, setUser }) => {
       <ul>
       {entries.sort((a, b) => new Date(b.date) - new Date(a.date)).map((entry) => (
         <div className='entryBox' key={entry._id}>
-          <h3>{entry.title}</h3>
+          <h2>{entry.title}</h2>
           <p style={{ color: `${entry.colour}` }}> {entry.body}</p>
+          {entry.image && <img src={`http://localhost:8000/uploads/${entry.image}`} alt="Entry Image" style={{ maxWidth: '100%', height: 'auto' }} />}
           <p>Shared by: {entry.sharedBy}</p>
           <div className= 'buttons-container'>
             

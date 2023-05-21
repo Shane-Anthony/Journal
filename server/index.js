@@ -341,6 +341,31 @@ app.delete('/delete/:userId/', async (req, res) => {
   }
 });
 
+app.delete('/contacts/:contactId', async (req, res) => {
+  try {
+    const contactId = req.params.contactId;
+    console.log('Deleting contact:', contactId);
+
+    // Find the user by their username and update the contacts array
+    const updatedUser = await user.findOneAndUpdate(
+      { 'contacts._id': contactId },
+      { $pull: { contacts: { _id: contactId } } },
+      { new: true } // Return the updated user object
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'Contact not found.' });
+    }
+
+    console.log('Contact deleted successfully');
+    res.status(200).json({ message: 'Contact deleted successfully.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to delete contact.' });
+  }
+});
+
+
 // Handle 404 errors
 app.use(function(req, res, next) {
     res.status(404).json({ error: "Not found" });

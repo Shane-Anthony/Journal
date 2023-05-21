@@ -29,6 +29,26 @@ const ContactForm = ({ user }) => {
     fetchContacts();
   }, [user.id]);
 
+  const deleteContact = async (contactId) => {
+    try {
+      // Send a DELETE request to delete the contact
+      const response = await fetch(`http://localhost:8000/contacts/${contactId}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete contact.');
+      }
+  
+      // Remove the deleted contact from the contacts state
+      setContacts(contacts.filter((contact) => contact._id !== contactId));
+      console.log('Contact deleted:', contactId);
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle any errors that occurred during the request
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -104,12 +124,18 @@ const ContactForm = ({ user }) => {
 
         <br />
 
-        {contacts.map((contact, index) => (
-          <div className="entryBox" key={index}>
+        {contacts.map((contact) => (
+          <div className="entryBox" key={contact._id}>
             <h2>{contact.name}</h2>
             <p>Username: {contact.contact}</p>
+            <div className= 'buttons-container'>
+              <button className="delete-btn" onClick={() => deleteContact(contact._id)}>
+                <i className="fas fa-trash-alt"></i> Delete
+              </button>
+            </div>
           </div>
         ))}
+
       </div>
     </div>
   );

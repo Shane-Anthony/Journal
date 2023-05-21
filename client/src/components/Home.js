@@ -34,7 +34,7 @@ const Home = ({ user, setUser }) => {
   useEffect(() => {
     let intervalId = setInterval(() => {
       fetchEntries();
-    }, 9999);
+    }, 3000);
   
     if (user !== null) {
       fetchEntries();
@@ -126,7 +126,7 @@ const Home = ({ user, setUser }) => {
             <div key={entry._id} className="entryBox">
               <h2>{entry.title}</h2>
               <p style={{ color: `${entry.colour}` }}> {entry.body}</p>
-              {entry.image && <img src={`http://localhost:8000/uploads/${entry.image}`} alt="Entry Image" />}
+              {entry.image && <img src={`http://localhost:8000/uploads/${entry.image}`} alt="Entry Image" style={{ maxWidth: '100%', height: 'auto' }} />}
               <div className="buttons-container">
                 <div className="date">Entry Date: {new Date(entry.date).toLocaleDateString()}</div>
                 <button className="share-btn" onClick={() => handleShareClick(entry._id)}>
