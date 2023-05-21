@@ -159,8 +159,11 @@ describe("GET /contacts/:userId", function() {
 // Testing the POST route '/share-entry/:username/:entryId/:shareUsername'
 describe("POST /share-entry/:username/:entryId/:shareUsername", function () {
   beforeEach(async function () {
-    // Reset the sharedWith array in the journalEntries field for all users
-    await user.updateMany({}, { $set: { 'journalEntries.$[].sharedWith': [] } });
+    // Reset the sharedWith array in the journalEntries field for the specific user
+    await user.updateOne(
+      { username: 'user1' }, // Replace 'user1' with the username of the user being tested
+      { $set: { 'journalEntries.$[].sharedWith': [] } }
+    );
   });
   // Testing if the response is in json format
   it("responds with json", function (done) {
