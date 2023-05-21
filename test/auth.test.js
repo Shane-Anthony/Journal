@@ -161,14 +161,14 @@ describe("POST /share-entry/:username/:entryId/:shareUsername", function () {
   beforeEach(async function () {
     // Reset the sharedWith array in the journalEntries field for the specific user
     await user.updateOne(
-      { username: 'user1' }, // Replace 'user1' with the username of the user being tested
+      { username: 'user1' }, 
       { $set: { 'journalEntries.$[].sharedWith': [] } }
     );
   });
   // Testing if the response is in json format
   it("responds with json", function (done) {
     request(app)
-      .post(`/share-entry/user1/646a8a0be7df4fc61fb8c8da/user2`) // Use the mocked entry ID for sharing
+      .post(`/share-entry/user1/646a8a0be7df4fc61fb8c8da/user2`) 
       .set("Accept", "application/json")
       .expect("Content-Type", /json/)
       .expect(200, done);
