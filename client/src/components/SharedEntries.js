@@ -23,8 +23,8 @@ const SharedEntries = ({ user, setUser }) => {
       <Sidebar />
       <h1 className='title'>Shared Entries</h1>
       <button className="refreshButton" onClick={handleRefresh}>
-          <i className="fas fa-sync-alt"></i>  
-        </button>
+        <i className="fas fa-sync-alt"></i>  
+      </button>
       <br />
       <br />
       <ul>

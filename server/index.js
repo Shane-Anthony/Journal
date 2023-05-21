@@ -186,7 +186,7 @@ app.post('/share-entry/:username/:entryId/:shareUsername', async (req, res) => {
     if (!userDoc.journalEntries || !userDoc.journalEntries.length) {
       return res.status(404).json({ message: 'Journal entries not found' });
     }
-    const entryToShare = userDoc.journalEntries.find(entry => entry.id === entryId);
+    const entryToShare = userDoc.journalEntries.find(entry => entry.id.toString() === entryId);
     console.log('entryToShare:', entryToShare);
     if (!entryToShare) {
       return res.status(404).json({ message: 'Journal entry not found' });

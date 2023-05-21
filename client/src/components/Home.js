@@ -31,18 +31,14 @@ const Home = ({ user, setUser }) => {
     setEntries(entriesWithColour);
   };
     
+  const handleRefresh = () => {
+    fetchEntries();
+  };
+
   useEffect(() => {
-    let intervalId = setInterval(() => {
-      fetchEntries();
-    }, 3000);
-  
     if (user !== null) {
       fetchEntries();
     }
-  
-    return () => {
-      clearInterval(intervalId);
-    };
   }, [user]);
 
   useEffect(() => {
@@ -103,7 +99,9 @@ const Home = ({ user, setUser }) => {
         <Sidebar handleAddEntryClick={handleAddEntryClick} isHomePage={true} />
         <div className="main-content">
           <h1 className="title">{user.id}'s Jurnal Entries</h1>
-
+          <button className="refreshButton" onClick={handleRefresh}>
+            <i className="fas fa-sync-alt"></i>  
+          </button> 
           <div>
             <label htmlFor="search"></label>
             <input
@@ -117,6 +115,7 @@ const Home = ({ user, setUser }) => {
           <br />
           <div>
             <button className={`sort-order-button ${sortOrder}`} onClick={handleSortClick}>Date: {sortOrder.toUpperCase()}</button>
+                    
           </div>
           <br />
 
