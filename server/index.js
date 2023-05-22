@@ -250,7 +250,6 @@ app.get('/shared-entries/:userId', async (req, res) => {
       for (let j = 0; j < entries.length; j++) {
         const entry = entries[j];
         const sharedWith = entry.sharedWith.map(obj => obj.toString()); // Convert ObjectId to string for comparison
-        console.log(`Entry ${entry._id} is shared with users: ${sharedWith}`);
         if (sharedWith.includes(userDoc._id.toString())) {
           console.log(`Adding entry ${entry._id} to shared entries`);
                     
