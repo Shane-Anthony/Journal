@@ -4,6 +4,8 @@ import Sidebar from './Sidebar';
 
 const SharedEntries = ({ user, setUser }) => {
   const [entries, setEntries] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredEntries, setFilteredEntries] = useState([]);
 
   const handleRefresh = async () => {
     try {
@@ -18,6 +20,18 @@ const SharedEntries = ({ user, setUser }) => {
     handleRefresh();
   }, [user]);
 
+  useEffect(() => {
+    const filteredEntries = entries.filter((entry) =>
+      entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      entry.body.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredEntries(filteredEntries);
+  }, [entries, searchQuery]);
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <div className='main-content'>
       <Sidebar />
@@ -25,10 +39,20 @@ const SharedEntries = ({ user, setUser }) => {
       <button className="refreshButton" onClick={handleRefresh}>
         <i className="fas fa-sync-alt"></i>  
       </button>
+      <div>
+        <label htmlFor="search"></label>
+        <input
+          type="text"
+          id="search"
+          placeholder="Search Entries"
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+        </div>
       <br />
       <br />
       <ul>
-      {entries.sort((a, b) => new Date(b.date) - new Date(a.date)).map((entry) => (
+      {filteredEntries.sort((a, b) => new Date(b.date) - new Date(a.date)).map((entry) => (
         <div className='entryBox' key={entry._id}>
           <h2>{entry.title}</h2>
           <p style={{ color: `${entry.colour}` }}> {entry.body}</p>
