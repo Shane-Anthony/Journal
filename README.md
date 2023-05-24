@@ -21,3 +21,16 @@ To run the Jurnal application once you have cloned the project, node.js and npm 
 3. Open the application: Open a web browser and enter the URL `http://localhost:3000/`. The application will be displayed.
 
 
+## Demo's
+
+
+https://github.com/Shane-Anthony/Journal/assets/78310026/d280dd48-cfbf-4da4-a8c9-6b0fa676379e
+
+
+
+https://github.com/Shane-Anthony/Journal/assets/78310026/00c24627-ac18-4442-b38f-e8e570552cc2
+
+
+
+https://github.com/Shane-Anthony/Journal/assets/78310026/24546df6-dd05-4cc3-9935-b6630be2055d
+
